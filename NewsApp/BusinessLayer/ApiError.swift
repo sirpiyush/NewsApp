@@ -12,5 +12,6 @@ enum ApiError:Error{
     case networkError
     case invalidUrl
     case badResponse
+    case parsingError(error:Error)
     case otherError(msg:String)
 }

@@ -19,7 +19,11 @@ struct NewsListView: View {
     var body: some View {
         NavigationView {
             List(viewModel.newsList) {news in
-                Text(news.title ?? "")
+                NavigationLink {
+                    NewsDetail(article: news)
+                } label: {
+                    Text(news.title ?? "")
+                }
             }.onAppear{
                 viewModel.getNewsList()
             }

@@ -13,7 +13,7 @@ struct NewsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NewsListView()
+            RootView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

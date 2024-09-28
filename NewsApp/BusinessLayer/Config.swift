@@ -16,6 +16,7 @@ struct Config {
 //Api related details need to be added
 enum Api{
     case newslist(queryParam:String)
+    case searchnews(queryParam:String)
     func getURLRequest()->URLRequest?{
         var urlString = Config.url
         var method = ""
@@ -24,7 +25,13 @@ enum Api{
             urlString = Config.headlineUrl
             urlString+=queryParam
             method="GET"
+            
+        case .searchnews(let queryParam):
+            urlString = Config.everythingUrl
+            urlString+=queryParam
+            method="GET"
         }
+        
         guard let url = URL(string: urlString)
         else {
             debugPrint("Invalid URL")

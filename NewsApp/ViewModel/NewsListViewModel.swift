@@ -17,7 +17,9 @@ class NewsListViewModel:ObservableObject {
         
         let publisher:AnyPublisher<NewsResponse,Error> = HTTPClient.shared.getData(urlRequest: urlRequest)
         
-        publisher.sink { completion in
+        publisher
+            .receive(on: RunLoop.main)
+            .sink { completion in
             switch completion {
             case .finished:
                 print("Finished")

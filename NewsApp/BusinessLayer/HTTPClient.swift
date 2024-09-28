@@ -26,13 +26,16 @@ final class HTTPClient:HTTPClientProtocol{
             .shared
             .dataTaskPublisher(for: urlRequest)
             .subscribe(on: DispatchQueue.global(qos: .background))
-            .tryMap { (data, response)->JSONDecoder.Input in
+            .tryMap { (data, response) in
                         guard let httpResponse = response as? HTTPURLResponse,
                                   (200...299).contains(httpResponse.statusCode)
                         else {throw ApiError.badResponse}
                         return data
                     }
             .decode(type: T.self, decoder: decoder)
+            .mapError{ error in
+                ApiError.parsingError(error: error)
+            }
             .eraseToAnyPublisher()
     }
 }

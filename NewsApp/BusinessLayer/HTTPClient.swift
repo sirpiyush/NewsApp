@@ -16,8 +16,11 @@ protocol HTTPClientProtocol{
 
 final class HTTPClient:HTTPClientProtocol{
     static let shared = HTTPClient()
-    let decoder = JSONDecoder()
-    var cancellable = Set<AnyCancellable>()
+    lazy var decoder = {
+        var decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }()
     let session = URLSession(configuration: .default)
     private init(){}
     

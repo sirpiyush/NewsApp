@@ -8,7 +8,33 @@
 import SwiftUI
 
 public struct BookmarkView: View {
+    @FetchRequest(sortDescriptors: []) var articles: FetchedResults<Bookmark>
+    @Environment(\.managedObjectContext) var moc
     public var body: some View {
-        Text("BookmarkView")
+        NavigationView {
+            List{
+                ForEach(articles) { news in
+                    NavigationLink {
+                        NewsDetail(article: news.getArticle())
+                    } label: {
+                        Text(news.title ?? "")
+                    }
+                }.onDelete(perform: deleteItems)
+                
+            }
+            .navigationBarTitle("Bookmark")
+        }
+    }
+    
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { articles[$0] }.forEach(moc.delete)
+            do {
+                try moc.save()
+            } catch {
+                let nsError = error as NSError
+                print("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ public struct BookmarkView: View {
                     NavigationLink {
                         NewsDetail(article: news.getArticle())
                     } label: {
-                        Text(news.title ?? "")
+                        Card(title: news.title, description: news.desc, imageURL: news.urlToImage)
                     }
                 }.onDelete(perform: deleteItems)
                 

@@ -27,7 +27,7 @@ struct SearchView: View {
                     NavigationLink {
                         NewsDetail(article: news)
                     } label: {
-                        Text(news.title ?? "")
+                        Card(title: news.title, description: news.description, imageURL: news.urlToImage)
                     }
                 }
                 .navigationBarTitle("Search")
